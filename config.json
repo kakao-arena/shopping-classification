@@ -1,0 +1,13 @@
+{
+    "unigram_hash_size": 100000,
+    "min_word_length": 2,
+    "max_word_length": 31,
+    "max_len": 32,
+    "db_chunk_size": 100000,
+    "num_workers": 10,
+    "num_preidct_workers": 2,
+    "embd_size": 128,
+    "lr": 1e-4,
+    "num_epochs": 100,
+    "batch_size": 1024
+}

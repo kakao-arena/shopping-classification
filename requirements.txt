@@ -1,0 +1,6 @@
+fire
+tqdm
+h5py
+keras
+numpy
+tensorflow
