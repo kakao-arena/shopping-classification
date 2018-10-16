@@ -106,6 +106,8 @@ class Classifier():
         meta = cPickle.loads(open(meta_path).read())
         self.weight_fname = os.path.join(out_dir, 'weights')
         self.model_fname = os.path.join(out_dir, 'model')
+        if not os.path.isdir(out_dir):
+            os.makedirs(out_dir)
 
         self.logger.info('# of classes: %s' % len(meta['y_vocab']))
         self.num_classes = len(meta['y_vocab'])
