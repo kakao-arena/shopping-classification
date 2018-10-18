@@ -204,7 +204,7 @@ class Data:
     def parse_data(self, label, h, i):
         Y = self.y_vocab.get(label)
         if Y is None and self.div == 'test':
-            Y = []
+            Y = 0
         if Y is None and self.div != 'test':
             return [None] * 2
         Y = to_categorical(Y, len(self.y_vocab))
