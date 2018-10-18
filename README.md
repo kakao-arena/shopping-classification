@@ -4,9 +4,13 @@
 
 ## 실행 방법
 
+0. 데이터의 위치
+  - 내려받은 데이터의 위치는 소스가 실행될 디렉토리의 상위 디렉토리로(../) 가정되어 있습니다.
+  - 데이터 위치를 바꾸기 위해서는 각 소스의 상단에 정의된 경로를 바꿔주세요.
 1. `python data.py make_db train`
   -  학습에 필요한 데이터셋을 생성합니다. (h5py 포맷) dev, test도 동일한 방식으로 생성할 수 있습니다.
   - 이 명령어를 실행하기 전에 `python data.py build_y_vocab`으로 데이터 생성이 필요한데, 코드 레파지토리에 생성한 파일이 포함되어 다시 만들지 않아도 됩니다.
+  - `config.json` 파일에 동시에 처리할 프로세스 수를 `num_workers`로 조절할 수 있습니다.
 2. `python classifier.py train ./data/train ./model/train`
   - `./data/train`에 생성한 데이터셋으로 학습을 진행합니다.
   - 완성된 모델은 `./model/train`에 위치합니다.
