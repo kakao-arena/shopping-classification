@@ -169,6 +169,7 @@ class Data:
         return chunks
 
     def preprocessing(self, data_path_list, div, begin_offset, end_offset, out_path):
+        self.div = div
         reader = Reader(data_path_list, div, begin_offset, end_offset)
         rets = []
         for pid, label, h, i in reader.generate():
@@ -202,7 +203,7 @@ class Data:
 
     def parse_data(self, label, h, i):
         Y = self.y_vocab.get(label)
-        if Y is None:
+        if Y is None and not self.div != 'test':
             return [None] * 2
         Y = to_categorical(Y, len(self.y_vocab))
 
