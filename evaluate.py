@@ -21,7 +21,7 @@ import numpy as np
 
 
 def evaluate(predict_path, data_path, div, y_vocab_path):
-    h = h5py.File(data_path)[div]
+    h = h5py.File(data_path, 'r')[div]
     inv_y_vocab = {v: k
                    for k, v in cPickle.loads(open(y_vocab_path).read()).iteritems()}
     fin = open(predict_path)

@@ -55,7 +55,7 @@ class Reader(object):
         offset = 0
         count = 0
         for data_path in self.data_path_list:
-            h = h5py.File(data_path)
+            h = h5py.File(data_path, 'r')
             sz = h[self.div]['pid'].shape[0]
             if not self.begin_offset and not self.end_offset:
                 offset += sz
@@ -83,7 +83,7 @@ class Reader(object):
     def generate(self):
         offset = 0
         for data_path in self.data_path_list:
-            h = h5py.File(data_path)[self.div]
+            h = h5py.File(data_path, 'r')[self.div]
             sz = h['pid'].shape[0]
             if self.begin_offset and offset + sz < self.begin_offset:
                 offset += sz
@@ -99,7 +99,7 @@ class Reader(object):
 
     def get_y_vocab(self, data_path):
         y_vocab = {}
-        h = h5py.File(data_path)[self.div]
+        h = h5py.File(data_path, 'r')[self.div]
         sz = h['pid'].shape[0]
         for i in tqdm.tqdm(range(sz), mininterval=1):
             class_name = self.get_class(h, i)
@@ -161,7 +161,7 @@ class Data:
     def _split_data(self, data_path_list, div, chunk_size=100000):
         total = 0
         for data_path in data_path_list:
-            h = h5py.File(data_path)
+            h = h5py.File(data_path, 'r')
             sz = h[div]['pid'].shape[0]
             total += sz
         chunks = [(i, min(i + chunk_size, total))
