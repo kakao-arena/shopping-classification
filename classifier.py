@@ -30,6 +30,7 @@ from network import Fasttext, top1_acc
 
 opt = Option('./config.json')
 cate1 = json.loads(open('../cate1.json').read())
+DEV_DATA_LIST = ['../dev.chunk.01']
 
 
 class Classifier():
@@ -55,27 +56,36 @@ class Classifier():
         return inv_cate1
 
     def write_prediction_result(self, data, pred_y, meta, out_path, readable):
+        pid_order = []
+        for data_path in DEV_DATA_LIST:
+            h = h5py.File(data_path, 'r')['dev']
+            pid_order.extend(h['pid'][::])
+
         y2l = {i: s for s, i in meta['y_vocab'].iteritems()}
         y2l = map(lambda x: x[1], sorted(y2l.items(), key=lambda x: x[0]))
         inv_cate1 = self.get_inverted_cate1(cate1)
+        rets = {}
+        for pid, p in izip(data['pid'], pred_y):
+            y = np.argmax(p)
+            label = y2l[y]
+            tkns = map(int, label.split('>'))
+            b, m, s, d = tkns
+            assert b in inv_cate1['b']
+            assert m in inv_cate1['m']
+            assert s in inv_cate1['s']
+            assert d in inv_cate1['d']
+            tpl = '{pid}\t{b}\t{m}\t{s}\t{d}'
+            if readable:
+                b = inv_cate1['b'][b]
+                m = inv_cate1['m'][m]
+                s = inv_cate1['s'][s]
+                d = inv_cate1['d'][d]
+            rets[pid] = tpl.format(pid=pid, b=b, m=m, s=s, d=d)
+        no_answer = '{pid}\t-1\t-1\t-1\t-1'
         with open(out_path, 'w') as fout:
-            for pid, p in izip(data['pid'], pred_y):
-                y = np.argmax(p)
-                label = y2l[y]
-                tkns = map(int, label.split('>'))
-                b, m, s, d = tkns
-                assert b in inv_cate1['b']
-                assert m in inv_cate1['m']
-                assert s in inv_cate1['s']
-                assert d in inv_cate1['d']
-                tpl = '{pid}\t{b}\t{m}\t{s}\t{d}'
-                if readable:
-                    b = inv_cate1['b'][b]
-                    m = inv_cate1['m'][m]
-                    s = inv_cate1['s'][s]
-                    d = inv_cate1['d'][d]
-                print >> fout, tpl.format(pid=pid,
-                                          b=b, m=m, s=s, d=d)
+            for pid in pid_order:
+                ans = rets.get(pid, no_answer.format(pid=pid))
+                print >> fout, ans
 
     def predict(self, data_root, model_root, test_root, test_div, out_path, readable=False):
         meta_path = os.path.join(data_root, 'meta')

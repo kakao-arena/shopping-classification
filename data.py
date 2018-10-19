@@ -177,6 +177,7 @@ class Data:
             if data is None:
                 continue
             rets.append((pid, y, x))
+        self.logger.info('sz=%s' % (len(rets)))
         open(out_path, 'w').write(cPickle.dumps(rets, 2))
         self.logger.info('%s ~ %s done. (size: %s)' % (begin_offset, end_offset, end_offset - begin_offset))
 
