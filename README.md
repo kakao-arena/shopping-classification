@@ -27,7 +27,7 @@
 2. `python classifier.py predict ./data/train ./model/train ./data/dev/ dev baseline.predict.tsv`
     - 위 실행 방법에서 생성한 모델로 `dev` 데이터셋에 대한 예측 결과를 생성합니다.
 3. 제출
-    - baseline.predict.tsv 파일을 zip으로 합축한 후 카카오 아레나 홈페이지에 제출합니다.
+    - baseline.predict.tsv 파일을 zip으로 압축한 후 카카오 아레나 홈페이지에 제출합니다.
 
 
 ## 로직 설명
