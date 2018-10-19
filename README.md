@@ -16,7 +16,7 @@
     - `./data/train`에 생성한 데이터셋으로 학습을 진행합니다.
     - 완성된 모델은 `./model/train`에 위치합니다.
 3. `python classifier.py predict ./data/train ./model/train ./data/train/ dev predict.tsv`
-    - 1. 에서 `train`의 20%로 생성한 평가 데이터에 대해서 예측한 결과를 `predict.tsv`에 저장합니다.
+    - 단계 1. 에서 `train`의 20%로 생성한 평가 데이터에 대해서 예측한 결과를 `predict.tsv`에 저장합니다.
 4. `python evaluate.py evaluate predict.tsv ./data/train/data.h5py dev ./data/y_vocab.cPickle`
     - 예측한 결과에 대해 스코어를 계산합니다.
 
