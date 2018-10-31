@@ -204,7 +204,7 @@ class Data:
 
     def parse_data(self, label, h, i):
         Y = self.y_vocab.get(label)
-        if Y is None and self.div == 'test':
+        if Y is None and self.div in ['dev', 'test']:
             Y = 0
         if Y is None and self.div != 'test':
             return [None] * 2
