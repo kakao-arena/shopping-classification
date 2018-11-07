@@ -34,7 +34,7 @@ def top1_acc(x, y):
 
 class TextOnly:
     def __init__(self):
-        self.logger = get_logger('fasttext')
+        self.logger = get_logger('textonly')
 
     def get_model(self, num_classes, activation='sigmoid'):
         max_len = opt.max_len
