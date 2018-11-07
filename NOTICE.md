@@ -8,49 +8,49 @@ If you have any questions or concerns, please contact us at [opensource@kakaocor
 
  **Google Python Fire**
 
-https://github.com/google/python-fire
-Copyright 2017 Google Inc.
+https://github.com/google/python-fire  
+Copyright 2017 Google Inc.  
 [Apache License 2.0](#apache-license-20)
 
 
  **HDF5 for Python**
 
-https://github.com/h5py/h5py
-Copyright 2008-2013 Andrew Collette and contributors
+https://github.com/h5py/h5py  
+Copyright 2008-2013 Andrew Collette and contributors  
 [BSD 3-Clause "New" or "Revised" License](#bsd-3-clause-new-or-revised-license)
 
 
  **Keras**
 
-https://github.com/keras-team/keras
-Copyright 2015 - 2018, François Chollet.
-Copyright 2015 - 2018, Google, Inc.
-Copyright 2017 - 2018, Microsoft, Inc.
-Copyright 2015 - 2018, the respective contributors.
+https://github.com/keras-team/keras  
+Copyright 2015 - 2018, François Chollet.  
+Copyright 2015 - 2018, Google, Inc.  
+Copyright 2017 - 2018, Microsoft, Inc.  
+Copyright 2015 - 2018, the respective contributors.    
 [MIT License](#mit-license)
 
 
  **NumPy**
 
-https://github.com/numpy/numpy
-Copyright 2005-2018, NumPy Developers.
+https://github.com/numpy/numpy  
+Copyright 2005-2018, NumPy Developers.  
 [BSD 3-Clause "New" or "Revised" License](#bsd-3-clause-new-or-revised-license)
 
 
  **TensorFlow**
 
-https://github.com/tensorflow/tensorflow
-Copyright 2018 The TensorFlow Authors.
+https://github.com/tensorflow/tensorflow  
+Copyright 2018 The TensorFlow Authors.  
 [Apache License 2.0](#apache-license-20)
 
 
  **tqdm**
 
-https://github.com/tqdm/tqdm
-Copyright 2015-2018 Casper da Costa-Luis.
-Copyright 2016 \[PR \#96\] on behalf of Google Inc.
-Copyright 2013 Noam Yorav-Raphael, original author.
-[Mozilla Public License 2.0](#mozilla-public-license-20)
+https://github.com/tqdm/tqdm  
+Copyright 2015-2018 Casper da Costa-Luis.  
+Copyright 2016 \[PR \#96\] on behalf of Google Inc.  
+Copyright 2013 Noam Yorav-Raphael, original author.  
+[Mozilla Public License 2.0](#mozilla-public-license-20)  
 [MIT License](#mit-license)
 
 
