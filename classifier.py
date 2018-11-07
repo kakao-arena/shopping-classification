@@ -26,7 +26,7 @@ from keras.models import load_model
 from keras.callbacks import ModelCheckpoint
 
 from misc import get_logger, Option
-from network import Fasttext, top1_acc
+from network import TextOnly, top1_acc
 
 opt = Option('./config.json')
 cate1 = json.loads(open('../cate1.json').read())
@@ -131,7 +131,7 @@ class Classifier():
         checkpoint = ModelCheckpoint(self.weight_fname, monitor='val_loss',
                                      save_best_only=True, mode='min', period=10)
 
-        fasttext = Fasttext()
+        fasttext = TextOnly()
         model = fasttext.get_model(self.num_classes)
 
         total_train_samples = train['uni'].shape[0]

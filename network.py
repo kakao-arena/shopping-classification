@@ -32,7 +32,7 @@ def top1_acc(x, y):
     return keras.metrics.top_k_categorical_accuracy(x, y, k=1)
 
 
-class Fasttext:
+class TextOnly:
     def __init__(self):
         self.logger = get_logger('fasttext')
 
