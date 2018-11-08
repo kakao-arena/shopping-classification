@@ -131,8 +131,8 @@ class Classifier():
         checkpoint = ModelCheckpoint(self.weight_fname, monitor='val_loss',
                                      save_best_only=True, mode='min', period=10)
 
-        fasttext = TextOnly()
-        model = fasttext.get_model(self.num_classes)
+        textonly = TextOnly()
+        model = textonly.get_model(self.num_classes)
 
         total_train_samples = train['uni'].shape[0]
         train_gen = self.get_sample_generator(train,
