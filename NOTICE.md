@@ -54,6 +54,13 @@ Copyright 2013 Noam Yorav-Raphael, original author.
 [MIT License](#mit-license)
 
 
+ **six**
+
+https://github.com/benjaminp/six
+Copyright (c) 2010-2018 Benjamin Peterson
+[MIT License](#mit-license)
+
+
 ## Apache License 2.0
 
 ``````````
