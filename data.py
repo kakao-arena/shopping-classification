@@ -126,7 +126,7 @@ def build_y_vocab(data):
 
 
 class Data:
-    y_vocab_path = './data/y_vocab.cPickle'
+    y_vocab_path = './data/y_vocab.cPickle' if six.PY2 else './data/y_vocab.py3.cPickle'
     tmp_chunk_tpl = 'tmp/base.chunk.%s'
 
     def __init__(self):
