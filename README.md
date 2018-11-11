@@ -22,7 +22,7 @@
 
 
 ## 제출하기
-1. `python data.py make_db dev --train_ratio=0.0`
+1. `python data.py make_db dev ./data/dev --train_ratio=0.0`
     - `dev` 데이터셋 전체를 예측용도로 사용하기 위해 `train_ratio` 값을 0.0으로 설정합니다.
 2. `python classifier.py predict ./data/train ./model/train ./data/dev/ dev baseline.predict.tsv`
     - 위 실행 방법에서 생성한 모델로 `dev` 데이터셋에 대한 예측 결과를 생성합니다.
