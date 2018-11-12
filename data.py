@@ -174,7 +174,7 @@ class Data:
         rets = []
         for pid, label, h, i in reader.generate():
             y, x = self.parse_data(label, h, i)
-            if data is None:
+            if y is None:
                 continue
             rets.append((pid, y, x))
         self.logger.info('sz=%s' % (len(rets)))
