@@ -57,7 +57,7 @@
 
 ### Benchmark
 
-다음은 MacbookPro 노트북(8GB 램, 8 논리 코어)에서 사용한 셋팅과 각 단계별로 소요된 시간입니다. 설정은 기본값을 그대로 사용했으며, train_data_list에 파일을 하나 사용했을 때와 모두(10개) 사용했을때의 결과입니다.
+다음은 MacbookPro 노트북(8GB 램, 8 논리 코어, python2, tensorflow-CPU-Only)에서 사용한 셋팅과 각 단계별로 소요된 시간입니다. 설정은 기본값을 그대로 사용했으며, train_data_list에 파일을 하나 사용했을 때와 모두(10개) 사용했을때의 결과입니다.
 
     - train_data_list 1개 파일
         - `python data.py make_db`: 수행 시간 16분 42초
