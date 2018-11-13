@@ -37,6 +37,34 @@
 ## 기타
 - 코드 베이스를 실행하기 위해서는 데이터셋을 포함해 최소 450G 가량의 공간이 필요합니다.
 
+## 테스트 가이드라인
+학습데이터의 크기가 100GB 이상이므로 사용하는 장비에 따라서 설정 변경이 필요합니다. `config.json`에서 수정 가능한 설정중에서 아래 항목들이 장비의 사양에 민감하게 영향을 받습니다.
+    - train_data_list
+    - chunk_size
+    - num_workers
+    - num_predict_workers
+
+
+`train_data_list`는 학습에 사용할 데이터 목록입니다. 전체 10개의 파일이며, 만약 10개의 파일을 모두 사용하여 학습하기 어려운 경우는 이 파일 수를 줄일 경우 시간을 상당히 단축시킬 수 있습니다. 
+
+`chunk_size`는 전처리 단계에서 저장하는 중간 파일의 사이즈에 영향을 줍니다. Out of Memory와 같은 에러가 날 경우 이 옵셥을 줄일 경우 해소될 수 있습니다.
+
+`num_workers`는 전처리 소요시간과 관련이 있습니다. 장비의 코어수에 적합하게 수정하면 수행시간을 줄이는데 도움이 됩니다.
+
+`num_predict_workers`는 예측 소요시간과 관련이 있습니다. `num_workers`와 마찬가지로 장비의 코어수에 맞춰 적절히 수정하면 수행시간을 단축하는데 도움이 됩니다.
+
+
+### Benchmark
+
+다음은 MacbookPro 노트북(8GB, 8Core)에서 사용한 셋팅과 각 단계별로 소요된 시간입니다. 설정은 기본값을 그대로 사용했으며, train_data_list에 파일을 하나 사용했을 때와 모두(10개) 사용했을때의 결과입니다.
+
+    - train_data_list 1개 파일
+        - `python data.py make_db`: 소요시간 16분 42초
+        - `python classifier.py train`: 소요시간 6분 41초 / epoch
+    - train_data_list 10개 파일
+        - `python data.py make_db`: 소요시간 2시간 3분
+        - `python classifier.py train`: 소요시간 50분 / epoch
+
 ## 라이선스
 
 This software is licensed under the Apache 2 license, quoted below.
