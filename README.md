@@ -46,7 +46,7 @@
     - num_predict_workers
 
 
-`train_data_list`는 학습에 사용할 데이터 목록입니다. 전체 10개의 파일이며, 만약 10개의 파일을 모두 사용하여 학습하기 어려운 경우는 이 파일 수를 줄일 경우 시간을 상당히 단축시킬 수 있습니다. 
+`train_data_list`는 학습에 사용할 데이터 목록입니다. 전체 9개의 파일이며, 만약 9개의 파일을 모두 사용하여 학습하기 어려운 경우는 이 파일 수를 줄일 경우 시간을 상당히 단축시킬 수 있습니다. 
 
 `chunk_size`는 전처리 단계에서 저장하는 중간 파일의 사이즈에 영향을 줍니다. Out of Memory와 같은 에러가 날 경우 이 옵션을 줄일 경우 해소될 수 있습니다.
 
@@ -57,12 +57,12 @@
 
 ### Benchmark
 
-다음은 MacbookPro 노트북(8GB 램, 8 논리 코어, python2, tensorflow-CPU-Only)에서 사용한 셋팅과 각 단계별로 소요된 시간입니다. 설정은 기본값을 그대로 사용했으며, train_data_list에 파일을 하나 사용했을 때와 모두(10개) 사용했을때의 결과입니다.
+다음은 MacbookPro 노트북(8GB 램, 8 논리 코어, python2, tensorflow-CPU-Only)에서 사용한 셋팅과 각 단계별로 소요된 시간입니다. 설정은 기본값을 그대로 사용했으며, train_data_list에 파일을 하나 사용했을 때와 모두(9개) 사용했을때의 결과입니다.
 
     - train_data_list 1개 파일
         - `python data.py make_db`: 수행 시간 16분 42초
         - `python classifier.py train`: 수행 시간 6분 41초 / epoch
-    - train_data_list 10개 파일
+    - train_data_list 9개 파일
         - `python data.py make_db`: 수행 시간 2시간 3분
         - `python classifier.py train`: 수행 시간 50분 / epoch
 
