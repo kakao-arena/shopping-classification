@@ -30,10 +30,6 @@ from keras.utils.np_utils import to_categorical
 from misc import get_logger, Option
 opt = Option('./config.json')
 
-TRAIN_DATA_LIST = ['../train.chunk.0%d' % i for i in range(1, 10)]
-DEV_DATA_LIST = ['../dev.chunk.01']
-TEST_DATA_LIST = ['../test.chunk.01', '../test.chunk.02']
-
 re_sc = re.compile('[\!@#$%\^&\*\(\)-=\[\]\{\}\.,/\?~\+\'"|]')
 
 
@@ -143,7 +139,7 @@ class Data:
         try:
             rets = pool.map_async(build_y_vocab,
                                   [(data_path, 'train')
-                                   for data_path in TRAIN_DATA_LIST]).get(99999999999)
+                                   for data_path in opt.train_data_list]).get(99999999)
             pool.close()
             pool.join()
             y_vocab = set()
@@ -158,7 +154,7 @@ class Data:
         self.logger.info('size of y vocab: %s' % len(self.y_vocab))
         cPickle.dump(self.y_vocab, open(self.y_vocab_path, 'wb'), 2)
 
-    def _split_data(self, data_path_list, div, chunk_size=100000):
+    def _split_data(self, data_path_list, div, chunk_size):
         total = 0
         for data_path in data_path_list:
             h = h5py.File(data_path, 'r')
@@ -181,8 +177,8 @@ class Data:
         open(out_path, 'w').write(cPickle.dumps(rets, 2))
         self.logger.info('%s ~ %s done. (size: %s)' % (begin_offset, end_offset, end_offset - begin_offset))
 
-    def _preprocessing(self, cls, data_path_list, div):
-        chunk_offsets = self._split_data(data_path_list, div)
+    def _preprocessing(self, cls, data_path_list, div, chunk_size):
+        chunk_offsets = self._split_data(data_path_list, div, chunk_size)
         num_chunks = len(chunk_offsets)
         self.logger.info('split data into %d chunks, # of classes=%s' % (num_chunks, len(self.y_vocab)))
         pool = Pool(opt.num_workers)
@@ -270,13 +266,13 @@ class Data:
     def make_db(self, data_name, output_dir='data/train', train_ratio=0.8):
         if data_name == 'train':
             div = 'train'
-            data_path_list = TRAIN_DATA_LIST
+            data_path_list = opt.train_data_list 
         elif data_name == 'dev':
             div = 'dev'
-            data_path_list = DEV_DATA_LIST
+            data_path_list = opt.dev_data_list 
         elif data_name == 'test':
             div = 'test'
-            data_path_list = TEST_DATA_LIST
+            data_path_list = opt.test_data_list
         else:
             assert False, '%s is not valid data name' % data_name
 
@@ -287,7 +283,10 @@ class Data:
         self.logger.info('make database from data(%s) with train_ratio(%s)' % (data_name, train_ratio))
 
         self.load_y_vocab()
-        num_input_chunks = self._preprocessing(Data, data_path_list, div)
+        num_input_chunks = self._preprocessing(Data,
+                                               data_path_list,
+                                               div,
+                                               chunk_size=opt.chunk_size)
         if not os.path.isdir(output_dir):
             os.makedirs(output_dir)
 
