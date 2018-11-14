@@ -5,3 +5,4 @@ keras
 numpy
 tensorflow
 six
+mmh3

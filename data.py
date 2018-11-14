@@ -24,6 +24,7 @@ import tqdm
 import fire
 import h5py
 import numpy as np
+import mmh3
 import six
 from keras.utils.np_utils import to_categorical
 from six.moves import cPickle
@@ -217,7 +218,7 @@ class Data:
         if not words:
             return [None] * 2
 
-        x = [hash(w) % opt.unigram_hash_size + 1 for w in words]
+        x = [mmh3.hash(w, seed=17) % opt.unigram_hash_size + 1 for w in words]
         xv = Counter(x).most_common(opt.max_len)
 
         x = np.zeros(opt.max_len, dtype=np.float32)
