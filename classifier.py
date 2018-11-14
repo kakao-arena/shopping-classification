@@ -20,6 +20,7 @@ from itertools import izip
 
 import fire
 import h5py
+import tqdm
 import numpy as np
 
 from keras.models import load_model
@@ -65,8 +66,7 @@ class Classifier():
         y2l = map(lambda x: x[1], sorted(y2l.items(), key=lambda x: x[0]))
         inv_cate1 = self.get_inverted_cate1(cate1)
         rets = {}
-        for pid, p in izip(data['pid'], pred_y):
-            y = np.argmax(p)
+        for pid, y in izip(data['pid'], pred_y):
             label = y2l[y]
             tkns = map(int, label.split('>'))
             b, m, s, d = tkns
@@ -101,12 +101,12 @@ class Classifier():
 
         test = test_data[test_div]
         test_gen = self.get_sample_generator(test, opt.batch_size)
-        total_test_samples = test['uni'].shape[0]
-        steps = int(np.ceil(total_test_samples / float(opt.batch_size)))
-        pred_y = model.predict_generator(test_gen,
-                                         steps=steps,
-                                         workers=opt.num_predict_workers,
-                                         verbose=1)
+        pred_y = []
+        for chunk in tqdm.tqdm(test_gen, mininterval=1):
+            total_test_samples = test['uni'].shape[0]
+            X, _ = chunk
+            _pred_y = model.predict(X)
+            pred_y.extend([np.argmax(y) for y in _pred_y])
         self.write_prediction_result(test, pred_y, meta, out_path, readable=readable)
 
     def train(self, data_root, out_dir):
