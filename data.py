@@ -218,7 +218,8 @@ class Data:
         if not words:
             return [None] * 2
 
-        x = [mmh3.hash(w, seed=17) % opt.unigram_hash_size + 1 for w in words]
+        hash_func = hash if six.PY2 else lambda x: mmh3.hash(x, seed=17)
+        x = [hash_func(w) % opt.unigram_hash_size + 1 for w in words]
         xv = Counter(x).most_common(opt.max_len)
 
         x = np.zeros(opt.max_len, dtype=np.float32)
