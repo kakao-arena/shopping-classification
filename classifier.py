@@ -15,6 +15,7 @@
 
 import os
 import json
+import threading
 
 import fire
 import h5py
@@ -30,7 +31,10 @@ from misc import get_logger, Option
 from network import TextOnly, top1_acc
 
 opt = Option('./config.json')
-cate1 = json.loads(open('../cate1.json').read())
+if six.PY2:
+    cate1 = json.loads(open('../cate1.json').read())
+else:
+    cate1 = json.loads(open('../cate1.json', 'rb').read().decode('utf-8'))
 DEV_DATA_LIST = ['../dev.chunk.01']
 
 
@@ -68,10 +72,9 @@ class Classifier():
         y2l = list(map(lambda x: x[1], sorted(y2l.items(), key=lambda x: x[0])))
         inv_cate1 = self.get_inverted_cate1(cate1)
         rets = {}
-        for pid, p in zip(data['pid'], pred_y):
+        for pid, y in zip(data['pid'], pred_y):
             if six.PY3:
                 pid = pid.decode('utf-8')
-            y = np.argmax(p)
             label = y2l[y]
             tkns = list(map(int, label.split('>')))
             b, m, s, d = tkns
@@ -109,8 +112,8 @@ class Classifier():
 
         test = test_data[test_div]
         batch_size = opt.batch_size
-        test_gen = self.get_sample_generator(test, batch_size, raise_stop_event=True)
         pred_y = []
+        test_gen = ThreadsafeIter(self.get_sample_generator(test, batch_size, raise_stop_event=True))
         total_test_samples = test['uni'].shape[0]
         with tqdm.tqdm(total=total_test_samples) as pbar:
             for chunk in test_gen:
@@ -167,6 +170,23 @@ class Classifier():
         model.load_weights(self.weight_fname) # loads from checkout point if exists
         open(self.model_fname + '.json', 'w').write(model.to_json())
         model.save(self.model_fname + '.h5')
+
+
+class ThreadsafeIter(object):
+    def __init__(self, it):
+        self._it = it
+        self._lock = threading.Lock()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        with self._lock:
+            return next(self._it)
+
+    def next(self):
+        with self._lock:
+            return self._it.next()
 
 
 if __name__ == '__main__':
