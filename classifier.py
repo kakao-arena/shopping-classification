@@ -20,6 +20,7 @@ from itertools import izip
 
 import fire
 import h5py
+import tqdm
 import numpy as np
 
 from keras.models import load_model
@@ -38,7 +39,7 @@ class Classifier():
         self.logger = get_logger('Classifier')
         self.num_classes = 0
 
-    def get_sample_generator(self, ds, batch_size):
+    def get_sample_generator(self, ds, batch_size, raise_stop_event=False):
         left, limit = 0, ds['uni'].shape[0]
         while True:
             right = min(left + batch_size, limit)
@@ -48,6 +49,8 @@ class Classifier():
             left = right
             if right == limit:
                 left = 0
+                if raise_stop_event:
+                    raise StopIteration
 
     def get_inverted_cate1(self, cate1):
         inv_cate1 = {}
@@ -65,8 +68,7 @@ class Classifier():
         y2l = map(lambda x: x[1], sorted(y2l.items(), key=lambda x: x[0]))
         inv_cate1 = self.get_inverted_cate1(cate1)
         rets = {}
-        for pid, p in izip(data['pid'], pred_y):
-            y = np.argmax(p)
+        for pid, y in izip(data['pid'], pred_y):
             label = y2l[y]
             tkns = map(int, label.split('>'))
             b, m, s, d = tkns
@@ -100,13 +102,17 @@ class Classifier():
         test_data = h5py.File(test_path, 'r')
 
         test = test_data[test_div]
-        test_gen = self.get_sample_generator(test, opt.batch_size)
+        batch_size = opt.batch_size
+        test_gen = self.get_sample_generator(test, batch_size, raise_stop_event=True)
+        pred_y = []
         total_test_samples = test['uni'].shape[0]
-        steps = int(np.ceil(total_test_samples / float(opt.batch_size)))
-        pred_y = model.predict_generator(test_gen,
-                                         steps=steps,
-                                         workers=opt.num_predict_workers,
-                                         verbose=1)
+        with tqdm.tqdm(total=total_test_samples) as pbar:
+            for chunk in test_gen:
+                total_test_samples = test['uni'].shape[0]
+                X, _ = chunk
+                _pred_y = model.predict(X)
+                pred_y.extend([np.argmax(y) for y in _pred_y])
+                pbar.update(X[0].shape[0])
         self.write_prediction_result(test, pred_y, meta, out_path, readable=readable)
 
     def train(self, data_root, out_dir):
