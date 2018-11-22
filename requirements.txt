@@ -4,3 +4,5 @@ h5py
 keras
 numpy
 tensorflow
+six
+mmh3

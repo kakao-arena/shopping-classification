@@ -35,19 +35,20 @@ def get_logger(name=__file__):
 class Option(dict):
     def __init__(self, *args, **kwargs):
         import json
+        import six
         args = [arg if isinstance(arg, dict) else json.loads(open(arg).read())
                 for arg in args]
         super(Option, self).__init__(*args, **kwargs)
         for arg in args:
             if isinstance(arg, dict):
-                for k, v in arg.iteritems():
+                for k, v in six.iteritems(arg):
                     if isinstance(v, dict):
                         self[k] = Option(v)
                     else:
                         self[k] = v
 
         if kwargs:
-            for k, v in kwargs.iteritems():
+            for k, v in six.iteritems(kwargs):
                 if isinstance(v, dict):
                     self[k] = Option(v)
                 else:

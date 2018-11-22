@@ -1,6 +1,6 @@
 # shopping-classification
 
-`쇼핑몰 상품 카테고리 분류` 대회 참가자에게 제공되는 코드 베이스입니다. 전처리와 간단한 분류기 그리고 평가 코드로 구성되어 있습니다. (코드는 python2, keras, tensorflow 기준으로 작성되었습니다.)
+`쇼핑몰 상품 카테고리 분류` 대회 참가자에게 제공되는 코드 베이스입니다. 전처리와 간단한 분류기 그리고 평가 코드로 구성되어 있습니다. (코드는 python2.7/3.5+, keras, tensorflow 기준으로 작성되었습니다.)
 
 ## 실행 방법
 
@@ -10,7 +10,8 @@
 1. `python data.py make_db train`
     - 학습에 필요한 데이터셋을 생성합니다. (h5py 포맷) dev, test도 동일한 방식으로 생성할 수 있습니다.
     - 위 명령어를 수행하면 `train` 데이터의 80%는 학습, 20%는 평가로 사용되도록 데이터가 나뉩니다.
-    - 이 명령어를 실행하기 전에 `python data.py build_y_vocab`으로 데이터 생성이 필요한데, 코드 레파지토리에 생성한 파일이 포함되어 다시 만들지 않아도 됩니다.
+    - 이 명령어를 실행하기 전에 `python data.py build_y_vocab`으로 데이터 생성이 필요한데, 코드 레파지토리에 생성한 파일이 포함되어 다시 만들지 않아도 됩니다. 
+      - Python 2는 `y_vocab.cPickle` 파일을 사용하고, Python 3은 `y_vocab.py3.cPickle` 파일을 사용합니다.
     - `config.json` 파일에 동시에 처리할 프로세스 수를 `num_workers`로 조절할 수 있습니다.
 2. `python classifier.py train ./data/train ./model/train`
     - `./data/train`에 생성한 데이터셋으로 학습을 진행합니다.
@@ -19,6 +20,7 @@
     - 단계 1. 에서 `train`의 20%로 생성한 평가 데이터에 대해서 예측한 결과를 `predict.tsv`에 저장합니다.
 4. `python evaluate.py evaluate predict.tsv ./data/train/data.h5py dev ./data/y_vocab.cPickle`
     - 예측한 결과에 대해 스코어를 계산합니다.
+    - Python 3에서는 `y_vocab.cPickle` 파일 대신 `y_vocab.py3.cPickle` 파일을 사용하여야 합니다.
 
 
 ## 제출하기
