@@ -25,7 +25,7 @@ def evaluate(predict_path, data_path, div, y_vocab_path):
     inv_y_vocab = {v: k
                    for k, v in cPickle.loads(open(y_vocab_path).read()).iteritems()}
     fin = open(predict_path)
-    hit, n = {}, {'b': 0, 'm': 0, 's': 0, 'd': 0}
+    hit, n = {'b': 0, 'm': 0, 's': 0, 'd': 0}, {'b': 0, 'm': 0, 's': 0, 'd': 0}
     print 'loading ground-truth...'
     CATE = np.argmax(h['cate'], axis=1)
     for p, y in izip(fin, CATE):
