@@ -2,6 +2,9 @@
 
 `쇼핑몰 상품 카테고리 분류` 대회 참가자에게 제공되는 코드 베이스입니다. 전처리와 간단한 분류기 그리고 평가 코드로 구성되어 있습니다. (코드는 python2.7/3.5+, keras, tensorflow 기준으로 작성되었습니다.)
 
+## UPDATED
+  - 2018.11.22 python3가 호환됩니다. [PR](https://github.com/kakao-arena/shopping-classification/pull/3)
+
 ## 실행 방법
 
 0. 데이터의 위치
